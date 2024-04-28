@@ -1,10 +1,11 @@
 
 const request = require('request');
 
+/*
 const fetchMyIP = function(callback) {
   // use request to fetch IP address from JSON API
-  
-  /*
+  */
+/*
 
 It should:
 
@@ -13,7 +14,7 @@ parse and extract the IP address using JSON and then pass that through to the ca
 
 */
 
-
+/*
   request(`https://api.ipify.org?format=json`, (error, response, body) => {
     if (error) {
       callback(error, null);
@@ -40,4 +41,44 @@ parse and extract the IP address using JSON and then pass that through to the ca
   });
 };
 
-module.exports = { fetchMyIP };
+*/
+
+const fetchCoordsByIP = function(ip, callback) {
+
+  /*
+It should take in two arguments: ip (string) and callback
+Add the function to the object properties being exported from iss.js
+For now, it can have an empty body and do nothing
+*/
+
+
+  request(`http://ipwho.is/${ip}`, (error, response, body) => {
+
+    if (error) {
+      callback(error, null);
+      return;
+    }
+
+    const parsedBody = JSON.parse(body);
+
+    if (!parsedBody.success) {
+      const message = `Success status was ${parsedBody.success}. Server message says: ${parsedBody.message} when fetching for IP ${parsedBody.ip}`;
+      callback(Error(message), null);
+      return;
+    }
+
+    const { latitude, longitude } = parsedBody;
+
+    callback(null, {latitude, longitude});
+  });
+
+};
+
+
+
+
+module.exports = { fetchCoordsByIP };
+
+
+
+//module.exports = { fetchMyIP };
