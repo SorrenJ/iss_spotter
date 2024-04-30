@@ -1,14 +1,54 @@
-
+/*
 const { fetchMyIP } = require('./iss_promised');
 const { fetchCoordsByIP } = require('./iss_promised');
 const { fetchISSFlyOverTimes } = require('./iss_promised');
+*/
+const { nextISSTimesForMyLocation } = require('./iss_promised');
+//FetchMyIP + fetchCoordsByIP  + fetchISSFlyOverTimes
 
+/*
 fetchMyIP()
   .then(fetchCoordsByIP)
   .then(fetchISSFlyOverTimes)
   .then(body => console.log(body));
+ */
+
+
+// nextISSTimesForMyLocation (callback version)
+  const printPassTimes = function(passTimes) {
+    for (const pass of passTimes) {
+      const datetime = new Date(0);
+      datetime.setUTCSeconds(pass.risetime);
+      const duration = pass.duration;
+      console.log(`Next pass at ${datetime} for ${duration} seconds!`);
+    }
+  };
+  // nextISSTimesForMyLocation (callback version)
+  nextISSTimesForMyLocation()
+  .then((passTimes) => {
+    printPassTimes(passTimes);
+  })
+  
  
- 
+
+// nextISSTimesForMyLocation() Output:
+/*
+Next pass at Tue Apr 30 2024 18:53:22 GMT-0700 (Pacific Daylight Time) for 552 seconds!
+Next pass at Wed May 01 2024 05:00:02 GMT-0700 (Pacific Daylight Time) for 508 seconds!
+Next pass at Wed May 01 2024 15:06:42 GMT-0700 (Pacific Daylight Time) for 303 seconds!
+Next pass at Thu May 02 2024 01:13:22 GMT-0700 (Pacific Daylight Time) for 296 seconds!
+Next pass at Thu May 02 2024 11:20:02 GMT-0700 (Pacific Daylight Time) for 705 seconds!
+
+*/
+
+
+
+
+
+
+
+
+
  
   // FetchMyIP Output:
   // {"ip":"10.22.100.000"}
